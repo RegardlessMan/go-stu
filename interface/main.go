@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"stu/Cdemo"
+	"reflect"
 )
 
 type car interface {
@@ -67,20 +67,50 @@ func processValue(v any) {
 	}
 }
 
+// 反射测试函数
+func reflectType(r any) {
+	t := reflect.TypeOf(r)
+	fmt.Printf("type:%v kind:%v\n", t.Name(), t.Kind())
+}
+
+func reflectValue(r any) {
+	v := reflect.ValueOf(r)
+	fmt.Printf("Value is %v\n", v)
+	t := v.Kind()
+	if reflect.Int == t {
+		fmt.Printf("good param is Int\n")
+	}
+}
+
+func reflectSetValue(value any) {
+	v := reflect.ValueOf(value)
+	v.Elem().SetInt(200)
+}
+
 // 接口学习相关
 func main() {
-	//bc := bc{
-	//	brand:    "奔驰",
-	//	capacity: 200,
+	//type myInt int
+	//var a *float32 // 指针
+	//var b myInt    // 自定义类型
+	//var c rune     // 类型别名
+	//reflectType(a) // type: kind:ptr
+	//reflectType(b) // type:myInt kind:int64
+	//reflectType(c) // type:int32 kind:int32
+	//
+	//type person struct {
+	//	name string
+	//	age  int
 	//}
-	//bm := &bm{
-	//	brand:    "宝马",
-	//	capacity: 300,
+	//type book struct{ title string }
+	//var d = person{
+	//	name: "沙河小王子",
+	//	age:  18,
 	//}
-	//start(bc, 1000)
-	//fmt.Println(bc)
-	//start(bm, 1000)
-	//fmt.Println(bm)
-	test(100)
-	fmt.Println(Cdemo.Pi)
+	//var e = book{title: "《跟小王子学Go语言》"}
+	//reflectType(d) // type:person kind:struct
+	//reflectType(e) // type:book kind:struct
+	a := 1
+	reflectValue(a)
+	reflectSetValue(&a)
+	fmt.Println(a)
 }
