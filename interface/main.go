@@ -40,7 +40,7 @@ func start(c car, add int) {
 }
 
 // 类型断言
-func test(a any) {
+func testType(a any) {
 	fmt.Println("----开始类型断言测试------------")
 
 	switch t := a.(type) {
@@ -87,30 +87,64 @@ func reflectSetValue(value any) {
 	v.Elem().SetInt(200)
 }
 
+func test() {
+	v := 0
+	r := reflect.ValueOf(v)
+	r.IsValid()
+	print(r.Kind() == reflect.Int)
+}
+
+type student struct {
+	Name  string `json:"name"`
+	Score int    `json:"score"`
+}
+
+func testReflect1() {
+	stu1 := student{
+		Name:  "小王子",
+		Score: 90,
+	}
+
+	t := reflect.TypeOf(stu1)
+	fmt.Println(t.Name(), t.Kind()) // student struct
+	// 通过for循环遍历结构体的所有字段信息
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i)
+		fmt.Printf("name:%s index:%d type:%v json tag:%v\n", field.Name, field.Index, field.Type, field.Tag.Get("json"))
+	}
+
+	// 通过字段名获取指定结构体字段信息
+	if scoreField, ok := t.FieldByName("Score"); ok {
+		fmt.Printf("name:%s index:%d type:%v json tag:%v\n", scoreField.Name, scoreField.Index, scoreField.Type, scoreField.Tag.Get("json"))
+	}
+}
+
+func (s student) Study() string {
+	fmt.Println("Study")
+	return "好好学习，天天向上"
+}
+
+func (s student) Sleep() string {
+	fmt.Println("Sleep")
+	return "我睡觉啦"
+}
+
+func testReflect2(x any) {
+	v := reflect.ValueOf(x)
+	t := reflect.TypeOf(x)
+	for i := 0; i < v.NumMethod(); i++ {
+		method := v.Method(i)
+		methodType := method.Type()
+		fmt.Printf("method name:%s index:%d type:%s\n", t.Method(i).Name, i, methodType)
+		// 通过反射调用方法传递的参数必须是 []reflect.Value 类型
+		var args = []reflect.Value{}
+		method.Call(args)
+	}
+
+}
+
 // 接口学习相关
 func main() {
-	//type myInt int
-	//var a *float32 // 指针
-	//var b myInt    // 自定义类型
-	//var c rune     // 类型别名
-	//reflectType(a) // type: kind:ptr
-	//reflectType(b) // type:myInt kind:int64
-	//reflectType(c) // type:int32 kind:int32
-	//
-	//type person struct {
-	//	name string
-	//	age  int
-	//}
-	//type book struct{ title string }
-	//var d = person{
-	//	name: "沙河小王子",
-	//	age:  18,
-	//}
-	//var e = book{title: "《跟小王子学Go语言》"}
-	//reflectType(d) // type:person kind:struct
-	//reflectType(e) // type:book kind:struct
-	a := 1
-	reflectValue(a)
-	reflectSetValue(&a)
-	fmt.Println(a)
+	//testReflect1()
+	testReflect2(student{})
 }
