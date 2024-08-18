@@ -146,5 +146,13 @@ func testReflect2(x any) {
 // 接口学习相关
 func main() {
 	//testReflect1()
-	testReflect2(student{})
+	//testReflect2(student{})
+	var config Config
+	if err := parseIniFile("E:\\Program\\Go\\src\\stu\\interface\\config.ini", &config); err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Println("Parsed Configuration:")
+	fmt.Printf("%+v\n", config)
 }
