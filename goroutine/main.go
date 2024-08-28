@@ -70,7 +70,17 @@ func main() {
 	//go f2(c)
 	//time.Sleep(time.Second * 60)
 	//close(c)
-	c := Produces()
-	Consumer(c)
-	time.Sleep(time.Second * 10)
+
+	//c := Produces()
+	//Consumer(c)
+	//time.Sleep(time.Second * 10)
+
+	ch := make(chan int, 1)
+	for i := 1; i <= 10; i++ {
+		select {
+		case x := <-ch:
+			fmt.Println(x)
+		case ch <- i:
+		}
+	}
 }
