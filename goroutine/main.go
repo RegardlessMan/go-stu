@@ -83,5 +83,4 @@ func main() {
 		case ch <- i:
 		}
 	}
-	time.Tick()
 }
