@@ -75,12 +75,20 @@ func main() {
 	//Consumer(c)
 	//time.Sleep(time.Second * 10)
 
-	ch := make(chan int, 1)
-	for i := 1; i <= 10; i++ {
-		select {
-		case x := <-ch:
-			fmt.Println(x)
-		case ch <- i:
-		}
-	}
+	//ch := make(chan int, 1)
+	//for i := 1; i <= 10; i++ {
+	//	select {
+	//	case x := <-ch:
+	//		fmt.Println(x)
+	//	case ch <- i:
+	//	}
+	//}
+	var (
+		a int
+		b int
+		c int
+	)
+
+	fmt.Scan(&a, &b, &c)
+	fmt.Println(a, b, c)
 }
