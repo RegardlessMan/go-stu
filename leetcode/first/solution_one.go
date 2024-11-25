@@ -14,23 +14,21 @@ func merge(nums1 []int, m int, nums2 []int, n int) {
 	sortNums := make([]int, m+n)
 
 	p1, p2 := 0, 0
-	for {
-		if p1 >= m || p2 >= n {
-			break
-		}
-		if nums1[p1] < nums2[p2] {
+	for p1 < m && p2 < n {
+		if p1 < m {
 			sortNums[p1+p2] = nums1[p1]
 			p1++
-		} else {
+		}
+		if p2 < n {
 			sortNums[p1+p2] = nums2[p2]
 			p2++
 		}
 	}
-	for ; p1 < m; p1++ {
-		sortNums[p1+p2] = nums1[p1]
+
+	if p1 < m {
+		copy(sortNums[p1+p2:], nums1[p1:])
 	}
-	for ; p2 < n; p2++ {
-		sortNums[p1+p2] = nums2[p2]
+	if p2 < n {
+		copy(sortNums[p1+p2:], nums2[p2:])
 	}
-	copy(nums1, sortNums)
 }
