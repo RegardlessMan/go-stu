@@ -67,3 +67,25 @@ func removeDuplicates(nums []int) int {
 	}
 	return l
 }
+
+/*
+*
+多数元素
+*/
+func majorityElement(nums []int) int {
+	n := len(nums)
+	tmp := nums[0]
+	count := 0
+	for i := 0; i < n; i++ {
+		if nums[i] == tmp {
+			count++
+		} else if count <= 0 {
+			tmp = nums[i]
+			count++
+		} else {
+			count--
+		}
+	}
+
+	return tmp
+}
