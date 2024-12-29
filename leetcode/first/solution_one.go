@@ -107,3 +107,18 @@ func rotate(nums []int, k int) {
 		nums[i] = tmp[i]
 	}
 }
+func rotateImplementTwo(nums []int, k int) {
+	n := len(nums)
+	k %= n
+	reverseNums(nums, 0, n-1)
+	reverseNums(nums, 0, k-1)
+	reverseNums(nums, k, n-1)
+}
+
+func reverseNums(nums []int, start, end int) {
+	for start < end {
+		nums[start], nums[end] = nums[end], nums[start]
+		start++
+		end--
+	}
+}
