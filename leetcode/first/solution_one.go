@@ -89,3 +89,21 @@ func majorityElement(nums []int) int {
 
 	return tmp
 }
+
+// 轮转数组
+func rotate(nums []int, k int) {
+	tmp := make([]int, k)
+	n := len(nums)
+	j := 0
+	k %= n
+	for i := n - k; i < n; i++ {
+		tmp[j] = nums[i]
+		j++
+	}
+	for i := n - k - 1; i >= 0; i-- {
+		nums[i+k] = nums[i]
+	}
+	for i := 0; i < k; i++ {
+		nums[i] = tmp[i]
+	}
+}
