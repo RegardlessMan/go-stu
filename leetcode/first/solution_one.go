@@ -6,8 +6,6 @@
 
 package first
 
-import "math"
-
 /*
 *
 两数之和
@@ -129,17 +127,29 @@ func reverseNums(nums []int, start, end int) {
 *
 买卖股票的最佳时机
 */
-func maxProfit(prices []int) int {
-	maxValue := 0
-	minValue := math.MaxInt64
-	for i := 0; i < len(prices); i++ {
-		if prices[i] < minValue {
-			minValue = prices[i]
-		}
-		if prices[i]-minValue > maxValue {
-			maxValue = prices[i] - minValue
-		}
-	}
+//func maxProfit(prices []int) int {
+//	maxValue := 0
+//	minValue := math.MaxInt64
+//	for i := 0; i < len(prices); i++ {
+//		if prices[i] < minValue {
+//			minValue = prices[i]
+//		}
+//		if prices[i]-minValue > maxValue {
+//			maxValue = prices[i] - minValue
+//		}
+//	}
+//
+//	return maxValue
+//}
 
-	return maxValue
+// maxProfit 买卖股票的最佳时机 II  动态规划解决
+func maxProfit(prices []int) int {
+	n := len(prices)
+	dp := make([][2]int, n)
+	dp[0][1] = -prices[0]
+	for i := 1; i < n; i++ {
+		dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i])
+		dp[i][1] = max(dp[i-1][1], dp[i-1][0]-prices[i])
+	}
+	return dp[n-1][0]
 }
