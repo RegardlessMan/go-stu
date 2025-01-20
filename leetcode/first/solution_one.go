@@ -153,3 +153,19 @@ func maxProfit(prices []int) int {
 	}
 	return dp[n-1][0]
 }
+
+// canJump 跳跃游戏
+func canJump(nums []int) bool {
+	n := len(nums)
+	high := 0
+	for i := 0; i < n; i++ {
+		if i <= high {
+			high = max(high, i+nums[i])
+			if high >= n-1 {
+				return true
+			}
+		}
+	}
+
+	return false
+}
